@@ -23,12 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 public class AddStudent extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Connection con;
-    /**
-     * Default constructor. 
-     */
-    public AddStudent() {
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * Default constructor.
+	 */
+	public AddStudent() {
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -37,7 +38,7 @@ public class AddStudent extends HttpServlet {
 		// TODO Auto-generated method stub
 		try {
 			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "innogent", "innogent");
-		}catch(SQLException sqe) {
+		} catch (SQLException sqe) {
 			sqe.printStackTrace();
 		}
 	}
@@ -50,9 +51,11 @@ public class AddStudent extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		try {
@@ -64,25 +67,27 @@ public class AddStudent extends HttpServlet {
 				pstmt.setString(i++, request.getParameter(name));
 			}
 			pstmt.executeQuery();
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			RequestDispatcher rd = request.getRequestDispatcher("listStudent.jsp");
+			rd.forward(request, response);
+		} catch (Exception e) {
+			// Catch the exception
+			String errorMessage = "An error occurred: " + e.getMessage();
+			request.setAttribute("errorMessage", errorMessage);
+			RequestDispatcher rd = request.getRequestDispatcher("Error.jsp");
+			rd.forward(request, response);
 		}
-		RequestDispatcher rd = request.getRequestDispatcher("listStudent.jsp");
-		rd.forward(request, response);
+
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-		
-		
+
 	}
 
 }

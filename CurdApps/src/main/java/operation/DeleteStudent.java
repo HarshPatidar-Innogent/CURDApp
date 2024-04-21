@@ -66,14 +66,18 @@ public class DeleteStudent extends HttpServlet {
 			pstmt.setString(1, request.getParameter("id"));
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// Catch the exception
+			String errorMessage = "An error occurred: " + e.getMessage();
+			request.setAttribute("errorMessage", errorMessage);
+			RequestDispatcher rd = request.getRequestDispatcher("Error.jsp");
+			rd.forward(request, response);
 		}
 
 		if (result == 1) {
 			RequestDispatcher rd = request.getRequestDispatcher("listStudent.jsp");
 			rd.forward(request, response);
 		} else if (result == 0) {
-			RequestDispatcher rd = request.getRequestDispatcher("Error.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("StudentDontExist.jsp");
 			rd.forward(request, response);
 		}
 

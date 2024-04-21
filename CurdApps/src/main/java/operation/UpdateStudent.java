@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -82,8 +83,11 @@ public class UpdateStudent extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("updateStudent.jsp");
 			rd.forward(request, response);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Catch the exception
+			String errorMessage = "An error occurred: " + e.getMessage();
+			request.setAttribute("errorMessage", errorMessage);
+			RequestDispatcher rd = request.getRequestDispatcher("Error.jsp");
+			rd.forward(request, response);
 		}
 	}
 

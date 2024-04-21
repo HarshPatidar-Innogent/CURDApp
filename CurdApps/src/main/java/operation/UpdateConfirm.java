@@ -21,15 +21,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/UpdateConfirm")
 public class UpdateConfirm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       Connection con;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateConfirm() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	Connection con;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public UpdateConfirm() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -37,12 +37,12 @@ public class UpdateConfirm extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		try {
-			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "innogent","innogent");
+			con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "innogent", "innogent");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**
@@ -53,34 +53,46 @@ public class UpdateConfirm extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
+		int result = 0;
 		try {
-			PreparedStatement pstmt = con.prepareStatement("update student set studentname=?, studentage=?, studentgender=?, studentemail=? where studentid=?");
+			PreparedStatement pstmt = con.prepareStatement(
+					"update student set studentname=?, studentage=?, studentgender=?, studentemail=? where studentid=?");
 			pstmt.setString(1, request.getParameter("name"));
 			pstmt.setInt(2, Integer.parseInt(request.getParameter("age")));
 			pstmt.setString(3, request.getParameter("gender"));
 			pstmt.setString(4, request.getParameter("email"));
 			pstmt.setInt(5, Integer.parseInt(request.getParameter("id")));
-			pstmt.executeUpdate();
+			result = pstmt.executeUpdate();
 			RequestDispatcher rd = request.getRequestDispatcher("listStudent.jsp");
 			rd.forward(request, response);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			String errorMessage = "An error occurred: " + e.getMessage();
+			request.setAttribute("errorMessage", errorMessage);
+			RequestDispatcher rd = request.getRequestDispatcher("Error.jsp");
+			rd.forward(request, response);
+		}
+		if (result == 1) {
+			RequestDispatcher rd = request.getRequestDispatcher("listStudent.jsp");
+			rd.forward(request, response);
+		} else if (result == 0) {
+			RequestDispatcher rd = request.getRequestDispatcher("StudentDontExist.jsp");
+			rd.forward(request, response);
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
