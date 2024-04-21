@@ -1,7 +1,6 @@
 package operation;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -60,23 +59,23 @@ public class DeleteStudent extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-	    int result = 0; // Initialize result to 0
-	    
-	    try {
-	        PreparedStatement pstmt = con.prepareStatement("delete from student where studentid=?");
-	        pstmt.setString(1, request.getParameter("id"));
-	        result = pstmt.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		int result = 0; // Initialize result to 0
 
-	    if (result == 1) {
-	        RequestDispatcher rd = request.getRequestDispatcher("listStudent.jsp");
-	        rd.forward(request, response);
-	    } else if (result == 0) {
-	        RequestDispatcher rd = request.getRequestDispatcher("Error.jsp");
-	        rd.forward(request, response);
-	    }
+		try {
+			PreparedStatement pstmt = con.prepareStatement("delete from student where studentid=?");
+			pstmt.setString(1, request.getParameter("id"));
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		if (result == 1) {
+			RequestDispatcher rd = request.getRequestDispatcher("listStudent.jsp");
+			rd.forward(request, response);
+		} else if (result == 0) {
+			RequestDispatcher rd = request.getRequestDispatcher("Error.jsp");
+			rd.forward(request, response);
+		}
 
 	}
 

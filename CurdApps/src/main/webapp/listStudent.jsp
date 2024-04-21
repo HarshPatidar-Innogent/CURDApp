@@ -60,7 +60,7 @@
 	</table>
 	<div class="container">
 	for insert, update and delete page link <br>
-		<a href="AddStudent.html">Add Student</a>
+		<a href="AddStudent.html">Add Student</a><br>
 		<a href="update.html">Update Student</a><br>
 		<a href="delete.html">Delete Student</a>
 		
