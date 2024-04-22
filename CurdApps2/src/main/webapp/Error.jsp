@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Error</h1>
-	<p><%=request.getAttribute("errorMessage")%></p>
+	<h1 class="display-5">Error</h1>
+	<p class="display-5"><%=request.getAttribute("errorMessage")%></p>
 	<br>
 </body>
 </html>

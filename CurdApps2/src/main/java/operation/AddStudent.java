@@ -56,8 +56,7 @@ public class AddStudent extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 		try {
 			PreparedStatement pstmt = con.prepareStatement("INSERT INTO STUDENT VALUES(STUDENTID.NEXTVAL,?,?,?,?)");
 			Enumeration<String> s1 = request.getParameterNames();
